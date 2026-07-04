@@ -4,6 +4,8 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home"
 import Shop from "./pages/Shop";
 import Blog from "./pages/Blog";
+import About from "./pages/About";
+import ContactPage from "./pages/Contact";
 import './App.css';
 
 function App() {
@@ -15,7 +17,8 @@ function App() {
 <Route path="/home" element={<Home />} />
 <Route path="/shop" element={<Shop />} />
 <Route path="/blog" element={<Blog />} />
-      <Route path="/" element={<Navigate to="/login" replace />} />
+   <Route path="/about" element={<About />} />
+    <Route path="/contact" element={<ContactPage />} />
     </Routes>
   );
 }

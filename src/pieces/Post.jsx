@@ -1,116 +1,116 @@
 import React, { useState } from "react";
 
-export default function Post() {
-  const editorialPosts = [
+export default function JewelryGrid() {
+  const posts = [
     {
       id: "post-1",
-      title: "The Art of Layering Solid Gold Pieces",
-      date: "OCTOBER 12",
-      excerpt: "Discover the fundamental rules of stacking silhouettes for an elegant, timeless aesthetic.",
+      title: "Gold Layer Necklace",
+      subtitle: "18K | handcrafted",
       category: "necklaces",
+      price: "$240",
       img: "https://i.pinimg.com/736x/40/c9/b3/40c9b3a3b0c40ed4d9daee0876992476.jpg",
     },
     {
       id: "post-2",
-      title: "Behind The Craft: Lost-Wax Casting Techniques",
-      date: "SEPTEMBER 28",
-      excerpt: "A pure visual journey inside our maison workspace detailing historical modeling steps.",
+      title: "Signature Diamond Ring",
+      subtitle: "white gold | pavé set",
       category: "rings",
+      price: "$1,200",
       img: "https://i.pinimg.com/736x/7c/81/b9/7c81b9af9918eb467f37ff2ee8999f85.jpg",
+    },
+    {
+      id: "post-3",
+      title: "Minimal Diamond Studs",
+      subtitle: "18K gold | everyday wear",
+      category: "earrings",
+      price: "$450",
+      img: "https://i.pinimg.com/1200x/fd/8f/cb/fd8fcb213296ed6fe5960b3a78080a4c.jpg",
+    },
+    {
+      id: "post-4",
+      title: "Classic Gold Bracelet",
+      subtitle: "polished finish | signature piece",
+      category: "bracelets",
+      price: "$310",
+      img: "https://i.pinimg.com/1200x/97/43/7f/97437fa1ce87cc223e9255cc9d2b9255.jpg",
     },
   ];
 
-  const [search, setSearch] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("all");
-  const [favoritePosts, setFavoritePosts] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
-  const toggleFavoritePost = (id) => {
-    setFavoritePosts((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+  const toggleFav = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
-  const filteredPosts = editorialPosts.filter((post) => {
-    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
-                          post.excerpt.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = selectedFilter === "all" || post.category === selectedFilter;
-    return matchesSearch && matchesCategory;
-  });
-
   return (
-    <>
-      <section className="w-[1200px] mt-4 mb-12 px-12 flex flex-col md:flex-row justify-between items-center gap-6 pb-6 border-b border-[#1A080B]/10">
-        <div className="relative w-[340px]">
-          <input
-            type="text"
-            placeholder="Search journal entries..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-transparent border-b border-[#1A080B]/30 py-2 pl-2 pr-8 font-serif italic text-[14px] focus:outline-none focus:border-[#1A080B] transition-colors placeholder-[#1A080B]/40"
-          />
-          <span className="absolute right-2 top-2.5 text-[12px] opacity-40">🔍</span>
-        </div>
+    <section className="w-full mx-auto px-6 py-12">
+      <div className="text-center mb-12">
+        <h2 className="font-serif text-3xl text-[#1A080B] tracking-wide mb-2">
+          Our Fine Jewelry
+        </h2>
+        <p className="text-xs tracking-widest text-[#1A080B]/50 uppercase">
+          Handcrafted Timeless Pieces
+        </p>
+      </div>
 
-        <div className="flex gap-6 text-[11px] tracking-[0.2em] uppercase font-sans text-[#1A080B]/60">
-          {["all", "bracelets", "rings", "earrings", "necklaces"].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setSelectedFilter(filter)}
-              className={`pb-1 transition-all cursor-pointer ${
-                selectedFilter === filter
-                  ? "text-[#1A080B] border-b border-[#1A080B] font-medium"
-                  : "hover:text-[#1A080B] border-b border-transparent"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </section>
+      <div className="flex flex-wrap justify-center gap-x-6 gap-y-10">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="flex flex-col w-[340px] group cursor-pointer bg-white"
+          >
+            <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#F9F9F9] mb-4">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFav(post.id);
+                }}
+                className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full 
+                bg-white shadow-sm flex items-center justify-center 
+                text-[#1A080B] hover:scale-105 transition duration-200"
+              >
+                {favorites.includes(post.id) ? (
+                  <span className="text-red-500">♥</span>
+                ) : (
+                  <span className="text-[#1A080B]/40 hover:text-[#1A080B]">♡</span>
+                )}
+              </button>
 
-      <section id="maison-notes-section" className="w-[1200px] px-12 pb-[140px] flex flex-col items-center scroll-mt-6">
-        <div className="w-full border-b border-[#1A080B]/10 pb-4 mb-12 flex justify-between items-end">
-          <h2 className="font-serif text-[24px] tracking-wide font-light">Maison Notes</h2>
-          <span className="font-sans text-[10px] tracking-widest uppercase opacity-40">
-            {selectedFilter === "all" ? "Volume III" : `${selectedFilter}`}
-          </span>
-        </div>
+              <img
+                src={post.img}
+                alt={post.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out"
+              />
 
-        <div className="w-full flex flex-wrap justify-between gap-y-16">
-          {filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
-              <div key={post.id} className="w-[530px] flex flex-col gap-6 group cursor-pointer relative">
-                <div className="w-full h-[300px] overflow-hidden rounded-[2px] relative shadow-xs">
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavoritePost(post.id);
-                    }}
-                    className="absolute top-4 right-4 text-[20px] p-2 bg-white/20 backdrop-blur-md rounded-full w-10 h-10 flex items-center justify-center focus:outline-none transition-transform active:scale-90 hover:bg-white/40 z-20 cursor-pointer"
-                  >
-                    {favoritePosts.includes(post.id) ? "❤️" : "🤍"}
-                  </button>
-
-                  <img 
-                    src={post.img} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-sans text-[9px] tracking-[0.25em] text-[#1A080B]/40 font-medium">{post.date}</span>
-                  <h3 className="font-serif text-[18px] tracking-wide text-[#1A080B] group-hover:text-[#5C4033] transition-colors">{post.title}</h3>
-                  <p className="font-serif text-[13px] text-[#1A080B]/60 leading-relaxed max-w-[480px]">{post.excerpt}</p>
-                </div>
+              <div className="absolute bottom-0 inset-x-0 bg-white/80 backdrop-blur-sm py-2.5 text-center opacity-0 group-hover:opacity-100 transition duration-300">
+                <span className="text-[11px] tracking-widest uppercase font-medium text-[#1A080B]">
+                  Quick View
+                </span>
               </div>
-            ))
-          ) : (
-            <p className="font-serif italic text-[#1A080B]/40 text-[14px] py-8 mx-auto">
-              No journal logs match your configuration.
-            </p>
-          )}
-        </div>
-      </section>
-    </>
+            </div>
+
+            <div className="flex flex-col text-center px-1">
+              <span className="text-[9px] tracking-widest uppercase text-[#1A080B]/40 mb-1">
+                {post.category}
+              </span>
+              
+              <h3 className="font-serif text-[15px] text-[#1A080B] group-hover:underline decoration-1 underline-offset-4 transition">
+                {post.title}
+              </h3>
+              
+              <p className="text-[11px] text-[#1A080B]/50 italic mt-0.5 font-light">
+                {post.subtitle}
+              </p>
+
+              <span className="text-sm font-medium text-[#1A080B] mt-2">
+                {post.price || "$250"}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

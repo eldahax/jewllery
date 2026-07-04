@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer(){
     return (
         <>
@@ -16,35 +18,35 @@ export default function Footer(){
           </div>
 
           <div className="flex flex-col space-y-2 text-[11px] tracking-wider uppercase font-sans text-white/60">
-            <span className="text-white font-bold tracking-widest text-xs mb-2 block">Shop</span>
-            <a href="#" className="hover:text-white transition-colors">Shop All</a>
-            <a href="#" className="hover:text-white transition-colors">Rings</a>
-            <a href="#" className="hover:text-white transition-colors">Earrings</a>
-            <a href="#" className="hover:text-white transition-colors">Necklaces</a>
+            <Link to="/Shop" className="text-white font-bold tracking-widest text-xs mb-2 block">Shop</Link>
+            <Link to="/Shop" className="hover:text-white transition-colors">Shop All</Link>
+            <Link  className="hover:text-white transition-colors">Rings</Link>
+            <Link className="hover:text-white transition-colors">Earrings</Link>
+            <Link className="hover:text-white transition-colors"> Necklaces</Link>
           </div>
 
           <div className="flex flex-col space-y-2 text-[11px] tracking-wider uppercase font-sans text-white/60">
             <span className="text-white font-bold tracking-widest text-xs mb-2 block">Collections</span>
-            <a href="#" className="hover:text-white transition-colors">Crushed Gold Collection</a>
-            <a href="#" className="hover:text-white transition-colors">La Concha Edition</a>
-            <a href="#" className="hover:text-white transition-colors">Lost Gems</a>
+            <a href="" className="hover:text-white transition-colors">Crushed Gold Collection</a>
+            <a href="" className="hover:text-white transition-colors">La Concha Edition</a>
+            <a href="" className="hover:text-white transition-colors">Lost Gems</a>
           </div>
 
           <div className="flex flex-col space-y-2 text-[11px] tracking-wider uppercase font-sans text-white/60">
             <span className="text-white font-bold tracking-widest text-xs mb-2 block">Services</span>
-            <a href="#" className="hover:text-white transition-colors">Shipping & Returns</a>
-            <a href="#" className="hover:text-white transition-colors">Sizing Guides</a>
-            <a href="#" className="hover:text-white transition-colors">Product Care</a>
-            <a href="#" className="hover:text-white transition-colors">Contact Us</a>
+            <a  className="hover:text-white transition-colors">Shipping & Returns</a>
+            <a  className="hover:text-white transition-colors">Sizing Guides</a>
+            <a className="hover:text-white transition-colors">Product Care</a>
+            <a  className="hover:text-white transition-colors">Contact Us</a>
           </div>
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-white/30 tracking-widest uppercase gap-4">
           <p>© 2026 KOLICA-GOLD MAISON. ALL RIGHTS RESERVED.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Sale</a>
-            <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+            <a  className="hover:text-white transition-colors">Privacy Policy</a>
+            <a  className="hover:text-white transition-colors">Terms of Sale</a>
+            <a  className="hover:text-white transition-colors">Cookie Policy</a>
           </div>
         </div>
       </footer>

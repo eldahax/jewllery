@@ -55,11 +55,9 @@ export default function NavBar() {
             </Link>
           </nav>
 
-          {/* Right Spacer for Mobile Alignment */}
           <div className="w-6 h-6 md:hidden pointer-events-none" />
         </div>
 
-        {/* Mobile Navigation Dropdown Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out border-b border-[#1A080B]/5 bg-[#FCFBF9] ${
             open ? "max-h-[350px] opacity-100 visibility-visible" : "max-h-0 opacity-0 visibility-hidden pointer-events-none"
