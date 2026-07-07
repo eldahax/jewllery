@@ -7,7 +7,7 @@ export default function Footer(){
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 border-b border-white/10 pb-12">
           
           <div className="space-y-4">
-            <h4 className="text-lg font-bold tracking-[0.3em] uppercase text-white">KOLICA</h4>
+            <h4 className="text-lg font-bold tracking-[0.3em] uppercase text-white">CELESTE</h4>
             <p className="text-[11px] text-white/50 leading-relaxed max-w-xs font-serif italic">
               Get raw layout updates, collections, and exclusive drops straight to your portal.
             </p>
@@ -42,7 +42,7 @@ export default function Footer(){
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-white/30 tracking-widest uppercase gap-4">
-          <p>© 2026 KOLICA-GOLD MAISON. ALL RIGHTS RESERVED.</p>
+          <p>© 2026 CELESTE-GOLD MAISON. ALL RIGHTS RESERVED.</p>
           <div className="flex gap-6">
             <a  className="hover:text-white transition-colors">Privacy Policy</a>
             <a  className="hover:text-white transition-colors">Terms of Sale</a>

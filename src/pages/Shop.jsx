@@ -60,8 +60,7 @@ export default function Shop() {
           onCategoryClick={handleCategoryClick}  
         />
 
-        <PremiumCollection premiumCollection={premiumCollectiond}/>
-        
+
         <Post 
           selectedFilter={selectedFilter} 
           setSelectedFilter={setSelectedFilter} 

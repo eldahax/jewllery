@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/nav"; 
 import heroo from "../assets/heroo.png";
 import Footer from "../components/footer";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const craftCollection = [
@@ -29,12 +30,12 @@ export default function Home() {
           className="absolute inset-0 w-full h-full object-cover brightness-90"
         />
         <div className="relative z-10 max-w-2xl mb-12">
-          <h1 className="text-4xl md:text-7xl font-bold tracking-[0.2em] uppercase text-white mb-6 drop-shadow-sm">
-            KOLICA-GOLD
+          <h1 className="text-4xl md:text-6xl font-bold tracking-[0.2em] uppercase text-white mb-6 drop-shadow-sm">
+            CELESTE-GOLD
           </h1>
-          <a href="#shop" className="text-xs uppercase tracking-[0.4em] text-white/90 border-b border-white/40 pb-2 hover:text-white hover:border-white transition-all duration-300">
+          <Link to="/shop" className="text-xs uppercase tracking-[0.4em] text-white/90 border-b border-white/40 pb-2 hover:text-white hover:border-white transition-all duration-300">
             Shop now
-          </a>
+          </Link>
         </div>
       </section>
 

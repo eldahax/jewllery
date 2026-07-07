@@ -3,9 +3,9 @@ import React from "react";
 export default function ProductsSection() {
   const categories = [
     { name: "Rings", img: "https://i.pinimg.com/736x/7c/81/b9/7c81b9af9918eb467f37ff2ee8999f85.jpg" },
-    { name: "Earrings", img: "https://i.pinimg.com/736x/1c/5f/7a/1c5f7a3a9b0f9c9b2c0d2d3c2b9d2a1.jpg" },
-    { name: "Necklaces", img: "https://i.pinimg.com/736x/40/c9/b3/40c9b3a3b0c40ed4d9daee0876992476.jpg" },
-    { name: "Bracelets", img: "https://i.pinimg.com/736x/9a/6b/2c/9a6b2c7f1c2a4f0d9e8b1c7d4f5a6b7c.jpg" },
+    { name: "Earrings", img: "https://i.pinimg.com/736x/40/c9/b3/40c9b3a3b0c40ed4d9daee0876992476.jpg" },
+    { name: "Necklaces", img: "https://i.pinimg.com/736x/aa/e7/0d/aae70d25566bb4be327e854e82f50b34.jpg" },
+    { name: "Bracelets", img: "https://i.pinimg.com/736x/2f/00/52/2f005200c458f8df349054351e7411db.jpg" },
   ];
 
   return (
@@ -21,7 +21,7 @@ export default function ProductsSection() {
           {categories.slice(0, 2).map((cat, index) => (
             <div
               key={index}
-              className="w-1/2 h-[600px] relative overflow-hidden group cursor-pointer"
+              className="w-1/2 h-[500px] relative overflow-hidden group cursor-pointer"
             >
               <img
                 src={cat.img}
@@ -44,7 +44,7 @@ export default function ProductsSection() {
           {categories.slice(2, 4).map((cat, index) => (
             <div
               key={index}
-              className="w-1/2 h-[600px] relative overflow-hidden group cursor-pointer"
+              className="w-1/2 h-[500px] relative overflow-hidden group cursor-pointer"
             >
               <img
                 src={cat.img}

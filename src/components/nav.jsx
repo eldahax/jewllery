@@ -27,7 +27,7 @@ export default function NavBar() {
             to="/"
             className="text-sm sm:text-base md:text-xl font-bold tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] uppercase text-[#1A080B] transition-all whitespace-nowrap absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
           >
-            Kolica-Gold
+            Celeste-Gold
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-[11px] tracking-widest uppercase font-medium text-[#1A080B]/70">
@@ -64,6 +64,7 @@ export default function NavBar() {
           }`}
         >
           <div className="flex flex-col gap-5 px-8 pt-4 pb-8 text-[11px] tracking-[0.2em] uppercase text-[#1A080B]/80 font-medium">
+            <Link to="/home" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Home</Link>
             <Link to="/shop" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Shop</Link>
             <Link to="/about" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">About</Link>
             <Link to="/blog" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Blog</Link>

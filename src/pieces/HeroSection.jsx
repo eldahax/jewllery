@@ -12,8 +12,8 @@ export default function HeroSection() {
   />
 
   <div className="absolute left-16 top-1/3 flex flex-col gap-6 max-w-[420px] z-10">
-    <h1 className="text-[70px] leading-none font-serif tracking-wide text-[#1A080B]">
-      CELESTIQUE
+    <h1 className="text-[40px] leading-none font-serif tracking-wide text-[#1A080B]">
+      CELESTE-GOLD
     </h1>
 
     <p className="text-[13px] text-[#1A080B]/60  font-bold">

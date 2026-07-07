@@ -51,7 +51,7 @@ export default function ContactPage() {
 
         <div className="w-full flex flex-col md:flex-row justify-between items-start gap-12 md:gap-4">
           
-          <div className="w-full md:w-[35%] flex flex-col gap-8 text-[11px] tracking-widest uppercase text-[#2A2421]">
+          <div className="w-full md:w-[35%] flex flex-col gap-8 text-[15px] tracking-widest uppercase text-[#2A2421]">
             
             <div>
               <span className="font-semibold block mb-1">Email</span>
