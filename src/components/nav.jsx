@@ -40,11 +40,12 @@ export default function NavBar() {
             <Link to="/about" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
               About
             </Link>
-            <Link to="/blog" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              Blog
-            </Link>
+           
             <Link to="/contact" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
               Contact
+            </Link>
+            <Link to="/dashboard" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
+              Profile
             </Link>
             <span className="w-[1px] h-3 bg-[#1A080B]/20 mx-1" />
             <Link to="/login" className="hover:text-[#1A080B] transition-colors">

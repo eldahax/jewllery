@@ -18,7 +18,13 @@ module.exports = (sequelize) => {
       },
       user_id: DataTypes.INTEGER,
       created_at: DataTypes.DATE,
+      badge_number: {
+  type: DataTypes.STRING,
+  allowNull: false,
+  unique: true
+},
     },
+    
     {
       sequelize,
       tableName: "employees",

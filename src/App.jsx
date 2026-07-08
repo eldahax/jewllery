@@ -7,12 +7,20 @@ import Blog from "./pages/Blog";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
 import './App.css';
-
+import AdminDashboard from "./admin/dashboard";
+import Profile from "./pages/Profile";
+import UserTable from "./admin/Tables/costumerTable";
+import EmployeeTable from "./admin/Tables/employeeTable";
 function App() {
   return (
     <Routes>
      
       <Route path="/login" element={<Login />} />
+      <Route path="/employees" element={<EmployeeTable />} />
+      <Route path="/costumers" element={<UserTable />} />
+            <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/Profile" element={<Profile />} />
+
 <Route path="/signup" element={<Signup />} />
 <Route path="/home" element={<Home />} />
 <Route path="/shop" element={<Shop />} />

@@ -1,27 +1,33 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Model, DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
   class Repair extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Repair.belongsTo(models.Customer, { foreignKey: 'customer_id' });
+      Repair.belongsTo(models.Product, { foreignKey: 'product_id' });
     }
   }
+
   Repair.init({
-    customer_id: DataTypes.INTEGER,
+    repair_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    customer_id: { type: DataTypes.INTEGER, allowNull: false },
     product_id: DataTypes.INTEGER,
     item_description: DataTypes.TEXT,
-    status: DataTypes.STRING,
-    cost: DataTypes.DECIMAL
+    status: {
+      type: DataTypes.ENUM('received', 'in_progress', 'done', 'picked_up'),
+      defaultValue: 'received'
+    },
+    cost: DataTypes.DECIMAL(10, 2)
   }, {
     sequelize,
-    modelName: 'Repair',
+    tableName: 'repairs',
+    timestamps: false
   });
+
   return Repair;
 };
