@@ -12,7 +12,9 @@ export default function EmployeeTable() {
 
     const getEmployees = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/employees");
+            const res = await fetch("http://localhost:5000/api/employees",{
+                 credentials:"include",
+            });
             const data = await res.json();
             setEmployees(data);
         } catch (err) { console.log(err); }
@@ -36,6 +38,7 @@ export default function EmployeeTable() {
     const handleCreate = async (data) => {
         try {
             const res = await fetch("http://localhost:5000/api/employees", {
+                credentials:"include",
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -50,6 +53,7 @@ export default function EmployeeTable() {
         try {
             const res = await fetch(`http://localhost:5000/api/employees/${id}`, {
                 method: "PUT",
+                 credentials:"include",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
@@ -62,7 +66,7 @@ export default function EmployeeTable() {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/employees/${id}`, { method: "DELETE" });
+            await fetch(`http://localhost:5000/api/employees/${id}`, { method: "DELETE" ,credentials:"include"});
             setEmployees(employees.filter(emp => emp.user_id !== id));
         } catch (err) { console.log(err); }
     };

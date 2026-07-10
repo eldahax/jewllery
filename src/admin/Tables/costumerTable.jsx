@@ -16,8 +16,9 @@ export default function UserTable() {
     const getUsers = async () => {
         try {
 
-            const res = await fetch("http://localhost:5000/api/users");
-
+           const res = await fetch("http://localhost:5000/api/users", {
+    credentials: "include"
+});
             const data = await res.json();
 
             setUsers(data);
@@ -74,8 +75,10 @@ export default function UserTable() {
 
             const res = await fetch(
                 `http://localhost:5000/api/users/${id}`,
+                
                 {
-                    method: "DELETE"
+                    method: "DELETE",
+                     credentials: "include"
                 }
             );
 
@@ -110,6 +113,7 @@ export default function UserTable() {
                 `http://localhost:5000/api/users/${id}`,
                 {
                     method: "PUT",
+                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json"
                     },

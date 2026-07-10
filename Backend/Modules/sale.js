@@ -10,7 +10,7 @@ class Sale extends Model {
       foreignKey: "sale_id",
     });
 
-    Sale.hasMany(models.Payment, {
+    Sale.hasMany(models.Payments, {
       foreignKey: "sale_id",
     });
 

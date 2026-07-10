@@ -1,8 +1,45 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/me", {
+          method: "GET",
+          credentials: "include", 
+        });
+        
+        if (response.ok) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (err) {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:5000/api/users/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setIsLoggedIn(false);
+      navigate("/login");
+      window.location.reload(); 
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <>
@@ -30,51 +67,49 @@ export default function NavBar() {
             Celeste-Gold
           </Link>
 
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-[11px] tracking-widest uppercase font-medium text-[#1A080B]/70">
-           <Link to="/Home" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              Home
-            </Link>
-            <Link to="/shop" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              Shop
-            </Link>
-            <Link to="/about" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              About
-            </Link>
-           
-            <Link to="/contact" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              Contact
-            </Link>
-            <Link to="/dashboard" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">
-              Profile
-            </Link>
+            <Link to="/home" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">Home</Link>
+            <Link to="/shop" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">Shop</Link>
+            <Link to="/about" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">About</Link>
+            <Link to="/contact" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">Contact</Link>
+            <Link to="/dashboard" className="hover:text-[#1A080B] border-b border-transparent hover:border-[#1A080B] pb-0.5 transition-all">Profile</Link>
+            
             <span className="w-[1px] h-3 bg-[#1A080B]/20 mx-1" />
-            <Link to="/login" className="hover:text-[#1A080B] transition-colors">
-              Login
-            </Link>
-            <Link to="/signup" className="hover:text-[#1A080B] bg-[#1A080B] text-white px-3 py-1.5 rounded-[4px] hover:bg-[#4A0E17] transition-all">
-              Signup
-            </Link>
+            
+            {isLoggedIn ? (
+              <button onClick={handleLogout} className="hover:text-[#1A080B] transition-colors uppercase">Logout</button>
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-[#1A080B] transition-colors">Login</Link>
+                <Link to="/signup" className="hover:text-[#1A080B] bg-[#1A080B] text-white px-3 py-1.5 rounded-[4px] hover:bg-[#4A0E17] transition-all">Signup</Link>
+              </>
+            )}
           </nav>
 
           <div className="w-6 h-6 md:hidden pointer-events-none" />
         </div>
 
+    
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out border-b border-[#1A080B]/5 bg-[#FCFBF9] ${
-            open ? "max-h-[350px] opacity-100 visibility-visible" : "max-h-0 opacity-0 visibility-hidden pointer-events-none"
+            open ? "max-h-[350px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           }`}
         >
           <div className="flex flex-col gap-5 px-8 pt-4 pb-8 text-[11px] tracking-[0.2em] uppercase text-[#1A080B]/80 font-medium">
-            <Link to="/home" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Home</Link>
-            <Link to="/shop" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Shop</Link>
-            <Link to="/about" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">About</Link>
-            <Link to="/blog" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Blog</Link>
-            <Link to="/contact" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Contact</Link>
+            <Link to="/home" onClick={() => setOpen(false)}>Home</Link>
+            <Link to="/shop" onClick={() => setOpen(false)}>Shop</Link>
+            <Link to="/about" onClick={() => setOpen(false)}>About</Link>
+            <Link to="/contact" onClick={() => setOpen(false)}>Contact</Link>
             <hr className="border-[#1A080B]/10 my-1" />
-            <div className="flex gap-6 pt-2">
-              <Link to="/login" onClick={() => setOpen(false)} className="hover:text-[#1A080B] transition-colors py-1">Login</Link>
-              <Link to="/signup" onClick={() => setOpen(false)} className="text-[#D4AF37] transition-colors py-1">Signup</Link>
-            </div>
+            {isLoggedIn ? (
+              <button onClick={handleLogout} className="text-left text-[#1A080B]">Logout</button>
+            ) : (
+              <div className="flex gap-6 pt-2">
+                <Link to="/login" onClick={() => setOpen(false)}>Login</Link>
+                <Link to="/signup" onClick={() => setOpen(false)} className="text-[#D4AF37]">Signup</Link>
+              </div>
+            )}
           </div>
         </div>
       </header>

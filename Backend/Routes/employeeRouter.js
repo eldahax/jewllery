@@ -3,14 +3,15 @@ const router = express.Router();
 
 const employeeController = require("../Controllers/employeeController");
 
+const{protect,authorize}=require("../Auth/middlewear")
 
-router.post("/", employeeController.create);
+router.post("/",protect,authorize("admin"), employeeController.create);
 
-router.get("/", employeeController.getAll);
+router.get("/", protect,authorize("admin"),employeeController.getAll);
 
-router.get("/:id", employeeController.findEmployeeById);
-router.put("/:id", employeeController.updateEmployee);
-router.delete("/:id", employeeController.deleteEmployee);
+router.get("/:id",protect,authorize("admin") ,employeeController.findEmployeeById);
+router.put("/:id",protect,authorize("admin") , employeeController.updateEmployee);
+router.delete("/:id",protect,authorize("admin") , employeeController.deleteEmployee);
 
 
 module.exports = router;

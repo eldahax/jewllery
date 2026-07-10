@@ -89,7 +89,7 @@ const handleUpdate = async () => {
                 </h2>
 
                 <p className="uppercase text-xs tracking-widest opacity-60">
-                  {user.role}
+                 MENAGER
                 </p>
               </div>
 

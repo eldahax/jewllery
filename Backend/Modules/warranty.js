@@ -1,25 +1,28 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Model, DataTypes } = require('sequelize'); // Import DataTypes here
+
+module.exports = (sequelize) => { // Only accept sequelize
   class Warranty extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Warranty.belongsTo(models.Sale, { foreignKey: 'sale_id' });
     }
   }
+  
   Warranty.init({
+    warranty_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     sale_id: DataTypes.INTEGER,
-    start_date: DataTypes.DATE,
-    end_date: DataTypes.DATE
+    start_date: DataTypes.DATEONLY, // Use DATEONLY for simple dates
+    end_date: DataTypes.DATEONLY
   }, {
     sequelize,
     modelName: 'Warranty',
+    tableName: 'warranties',
+    timestamps: false
   });
+  
   return Warranty;
 };

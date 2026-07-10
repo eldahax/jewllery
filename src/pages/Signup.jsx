@@ -116,7 +116,7 @@ export default function Signup() {
         
         <div className="text-center mb-8">
           <h1 className="text-3xl font-light text-[#4A0E17] tracking-[0.35em] uppercase mb-2">
-            Kolica Gold
+            Celeste Gold
           </h1>
 
           <p className="text-[10px] tracking-[0.5em] text-[#D4AF37] uppercase font-sans">

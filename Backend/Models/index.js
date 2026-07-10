@@ -58,12 +58,11 @@ const db = {
     CashRegisterSession,
     Sale,
     SaleItem,
-    Payment,
+    Payments,
     Return,
     ReturnItem,
     Repair,
     Warranty,
-    AuditLog,
     sequelize
 };
 
