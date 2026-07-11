@@ -29,6 +29,15 @@ class Product extends Model {
     Product.hasMany(models.SaleItem, {
       foreignKey: "product_id",
     });
+    Product.hasMany(models.Review, {
+    foreignKey: "product_id"
+});
+ Product.belongsToMany(models.User, {
+    through: models.Favorite,
+    foreignKey: 'product_id',
+    otherKey: 'user_id',
+  });
+
   }
 }
 

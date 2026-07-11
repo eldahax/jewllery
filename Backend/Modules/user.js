@@ -11,6 +11,10 @@ class User extends Model {
     User.hasOne(models.Employee, {
       foreignKey: "user_id",
     });
+    User.hasMany(models.Reminder, {
+    foreignKey: 'user_id',
+    as: 'reminders'
+  });
 
     User.hasOne(models.Customer, {
       foreignKey: "user_id",
@@ -19,6 +23,12 @@ class User extends Model {
     User.hasMany(models.RefreshToken, {
       foreignKey: "user_id",
     });
+    User.belongsToMany(models.Product, {
+    through: models.Favorite,
+    foreignKey: 'user_id',
+    otherKey: 'product_id',
+
+  });
   }
 }
 
