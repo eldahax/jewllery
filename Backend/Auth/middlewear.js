@@ -12,18 +12,23 @@ const protect = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    const userId = decoded.user_id || decoded.id;
 
-    if (!decoded.user_id) {
+    if (!userId) {
       return res.status(401).json({
         error: "Invalid token payload"
       });
     }
 
-    req.user = decoded;
+    req.user = {
+      ...decoded,
+      id: userId,
+      user_id: userId
+    };
+
     next();
 
   } catch (err) {
-
     console.log(err);
 
     if (err.name === "TokenExpiredError") {
@@ -41,8 +46,6 @@ const protect = (req, res, next) => {
 
 const authorize = (...allowedRoles) => {
   return (req, res, next) => {
-
-
     if (!req.user || !req.user.roles) {
       return res.status(403).json({
         error: "Forbidden"
@@ -57,12 +60,9 @@ const authorize = (...allowedRoles) => {
       role.toLowerCase().trim()
     );
 
-
     const hasAccess = userRoles.some(role =>
       allowed.includes(role)
     );
-
-  
 
     if (!hasAccess) {
       return res.status(403).json({
