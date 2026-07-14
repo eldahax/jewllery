@@ -1,209 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/nav";
 import Profile from "../pages/Profile";
 
 export default function PersonalProfile() {
-
-  const [editing, setEditing] = useState(false);
-
   const [user, setUser] = useState({
-    name: "Elda Haxhidauti",
-    email: "elda@example.com",
-    phone: "+383 44 000 000",
-    address: "Pristina, Kosovo",
-    role: "Customer",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    role: "",
   });
 
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
-const handleUpdate = async () => {
-  try {
-    const response = await fetch(
-      `http://localhost:5000/users/update/${user.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
+  useEffect(() => {
+    const fetchUserData = () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+
+        if (storedUser) {
+          setUser({
+            name: storedUser.name || (storedUser.first_name && storedUser.last_name ? `${storedUser.first_name} ${storedUser.last_name}` : storedUser.first_name || ""),
+            email: storedUser.email || "",
+            phone: storedUser.phone || "",
+            address: storedUser.address || "",
+          });
+        }
+      } catch (err) {
+        console.error("Error reading user profile from storage:", err);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen bg-[#FDFDFC] items-center justify-center text-[#1A080B]">
+        <p className="text-sm uppercase tracking-widest animate-pulse">Loading profile...</p>
+      </div>
     );
-
-    const data = await response.json();
-
-    if (response.ok) {
-   
-      setEditing(false);
-    } 
-
-  } catch (error) {
-    console.log("Error updating user:", error);
   }
-};
 
   return (
     <>
       <NavBar />
 
       <div className="flex min-h-screen bg-[#FDFDFC] text-[#1A080B]">
-
-       
         <Profile />
 
         <main className="flex-1 p-12">
-
-
           <header className="mb-10 border-b border-[#1A080B]/10 pb-8">
-
             <h1 className="text-4xl font-serif">
               My Profile
             </h1>
-
             <p className="mt-2 text-sm opacity-60">
-              Manage your account information
+              View your account information
             </p>
-
           </header>
 
-
-
-
           <div className="max-w-7xl bg-white border border-[#1A080B]/10 rounded-lg p-10">
-
-
             <div className="flex items-center gap-8 mb-10">
-
               <div className="w-28 h-28 rounded-full bg-[#1A080B] text-white flex items-center justify-center text-4xl font-serif">
-                E
+                {user.name ? user.name.charAt(0) : "U"}
               </div>
-
 
               <div>
                 <h2 className="text-3xl font-serif">
                   {user.name}
                 </h2>
-
                 <p className="uppercase text-xs tracking-widest opacity-60">
-                 MENAGER
+                  {user.role}
                 </p>
               </div>
-
             </div>
 
-
-
             <div className="grid grid-cols-2 gap-8">
-
-
               <div>
                 <label className="text-[10px] uppercase tracking-widest opacity-60">
                   Name
                 </label>
-
                 <input
                   name="name"
                   value={user.name}
-                  disabled={!editing}
-                  onChange={handleChange}
-                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                  disabled={true}
+                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none disabled:bg-transparent cursor-not-allowed"
                 />
-
               </div>
-
-
 
               <div>
                 <label className="text-[10px] uppercase tracking-widest opacity-60">
                   Email
                 </label>
-
                 <input
                   name="email"
                   value={user.email}
-                  disabled={!editing}
-                  onChange={handleChange}
-                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                  disabled={true}
+                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none disabled:bg-transparent cursor-not-allowed"
                 />
-
               </div>
-
-
 
               <div>
                 <label className="text-[10px] uppercase tracking-widest opacity-60">
                   Phone
                 </label>
-
                 <input
                   name="phone"
-                  value={user.phone}
-                  disabled={!editing}
-                  onChange={handleChange}
-                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                  value={user.phone || ""}
+                  disabled={true}
+                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none disabled:bg-transparent cursor-not-allowed"
                 />
-
               </div>
-
-
 
               <div>
                 <label className="text-[10px] uppercase tracking-widest opacity-60">
                   Address
                 </label>
-
                 <input
                   name="address"
-                  value={user.address}
-                  disabled={!editing}
-                  onChange={handleChange}
-                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                  value={user.address || ""}
+                  disabled={true}
+                  className="w-full border-b border-[#1A080B]/20 py-3 outline-none disabled:bg-transparent cursor-not-allowed"
                 />
-
               </div>
-
-
             </div>
-
-
-
-            <div className="mt-10 pt-8 border-t border-[#1A080B]/10">
-
-
-              {!editing ? (
-
-                <button
-                  onClick={() => setEditing(true)}
-                  className="bg-[#1A080B] text-white px-8 py-3 uppercase text-xs tracking-widest"
-                >
-                  Edit Profile
-                </button>
-
-              ) : (
-
-                <button
-                  onClick={() => setEditing(false)}
-                  className="bg-[#1A080B] text-white px-8 py-3 uppercase text-xs tracking-widest"
-                >
-                  Save Changes
-                </button>
-
-              )}
-
-
-            </div>
-
-
           </div>
 
-
           <div className="grid grid-cols-3 gap-6 mt-10 max-w-4xl">
-
-
             <div className="bg-white border border-[#1A080B]/10 p-6">
               <p className="text-xs uppercase opacity-60">
                 Orders
@@ -212,8 +137,6 @@ const handleUpdate = async () => {
                 12
               </p>
             </div>
-
-
 
             <div className="bg-white border border-[#1A080B]/10 p-6">
               <p className="text-xs uppercase opacity-60">
@@ -224,8 +147,6 @@ const handleUpdate = async () => {
               </p>
             </div>
 
-
-
             <div className="bg-white border border-[#1A080B]/10 p-6">
               <p className="text-xs uppercase opacity-60">
                 Member Since
@@ -234,13 +155,8 @@ const handleUpdate = async () => {
                 2026
               </p>
             </div>
-
-
           </div>
-
-
         </main>
-
       </div>
     </>
   );

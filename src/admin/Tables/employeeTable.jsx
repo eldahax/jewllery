@@ -137,16 +137,66 @@ export default function EmployeeTable() {
 
 function AddEmployeeForm({ onCancel, onCreate }) {
     const [data, setData] = useState({ first_name: "", last_name: "", email: "", password: "", badge_number: "" });
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        const nameRegex = /^[A-Za-z\s'-]{2,}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^.{6,}$/;
+        const badgeRegex = /^[A-Za-z0-9-_]{3,}$/;
+
+        if (!nameRegex.test(data.first_name)) {
+            newErrors.first_name = "First name must be at least 2 characters and contain only letters.";
+        }
+        if (!nameRegex.test(data.last_name)) {
+            newErrors.last_name = "Last name must be at least 2 characters and contain only letters.";
+        }
+        if (!emailRegex.test(data.email)) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+        if (!passwordRegex.test(data.password)) {
+            newErrors.password = "Password must be at least 6 characters long.";
+        }
+        if (!badgeRegex.test(data.badge_number)) {
+            newErrors.badge_number = "Badge number must be at least 3 alphanumeric characters.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = () => {
+        if (validate()) {
+            onCreate(data);
+        }
+    };
+
     return (
-        <div className="max-w-2xl bg-white p-10 border border-[#1A080B]/10 space-y-8">
+        <div className="max-w-2xl bg-white p-10 border border-[#1A080B]/10 space-y-6">
             <h3 className="text-xl font-serif">Add New Employee</h3>
-            <input className="w-full border-b py-3 outline-none" placeholder="First Name" onChange={e => setData({ ...data, first_name: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Last Name" onChange={e => setData({ ...data, last_name: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Email" onChange={e => setData({ ...data, email: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" type="password" placeholder="Password" onChange={e => setData({ ...data, password: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Badge Number" onChange={e => setData({ ...data, badge_number: e.target.value })} />
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="First Name" value={data.first_name} onChange={e => setData({ ...data, first_name: e.target.value })} />
+                {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Last Name" value={data.last_name} onChange={e => setData({ ...data, last_name: e.target.value })} />
+                {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" type="password" placeholder="Password" value={data.password} onChange={e => setData({ ...data, password: e.target.value })} />
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Badge Number" value={data.badge_number} onChange={e => setData({ ...data, badge_number: e.target.value })} />
+                {errors.badge_number && <p className="text-red-500 text-xs mt-1">{errors.badge_number}</p>}
+            </div>
             <div className="flex gap-4">
-                <button onClick={() => onCreate(data)} className="flex-1 bg-[#1A080B] text-white py-4 uppercase text-xs tracking-widest">Create</button>
+                <button onClick={handleSubmit} className="flex-1 bg-[#1A080B] text-white py-4 uppercase text-xs tracking-widest">Create</button>
                 <button onClick={onCancel} className="px-8 border uppercase text-xs tracking-widest">Cancel</button>
             </div>
         </div>
@@ -160,16 +210,58 @@ function EditEmployeeForm({ employee, onCancel, onUpdate }) {
         email: employee.User?.email || "",
         badge_number: employee.badge_number || ""
     });
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        const nameRegex = /^[A-Za-z\s'-]{2,}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const badgeRegex = /^[A-Za-z0-9-_]{3,}$/;
+
+        if (!nameRegex.test(data.first_name)) {
+            newErrors.first_name = "First name must be at least 2 characters and contain only letters.";
+        }
+        if (!nameRegex.test(data.last_name)) {
+            newErrors.last_name = "Last name must be at least 2 characters and contain only letters.";
+        }
+        if (!emailRegex.test(data.email)) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+        if (!badgeRegex.test(data.badge_number)) {
+            newErrors.badge_number = "Badge number must be at least 3 alphanumeric characters.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = () => {
+        if (validate()) {
+            onUpdate(employee.user_id, data);
+        }
+    };
 
     return (
-        <div className="max-w-2xl bg-white p-10 border border-[#1A080B]/10 space-y-8">
+        <div className="max-w-2xl bg-white p-10 border border-[#1A080B]/10 space-y-6">
             <h3 className="text-xl font-serif">Edit Employee</h3>
-            <input className="w-full border-b py-3 outline-none" placeholder="First Name" value={data.first_name} onChange={e => setData({ ...data, first_name: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Last Name" value={data.last_name} onChange={e => setData({ ...data, last_name: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} />
-            <input className="w-full border-b py-3 outline-none" placeholder="Badge Number" value={data.badge_number} onChange={e => setData({ ...data, badge_number: e.target.value })} />
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="First Name" value={data.first_name} onChange={e => setData({ ...data, first_name: e.target.value })} />
+                {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Last Name" value={data.last_name} onChange={e => setData({ ...data, last_name: e.target.value })} />
+                {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            </div>
+            <div>
+                <input className="w-full border-b py-3 outline-none" placeholder="Badge Number" value={data.badge_number} onChange={e => setData({ ...data, badge_number: e.target.value })} />
+                {errors.badge_number && <p className="text-red-500 text-xs mt-1">{errors.badge_number}</p>}
+            </div>
             <div className="flex gap-4">
-                <button onClick={() => onUpdate(employee.user_id, data)} className="flex-1 bg-[#1A080B] text-white py-4 uppercase text-xs tracking-widest">Save Changes</button>
+                <button onClick={handleSubmit} className="flex-1 bg-[#1A080B] text-white py-4 uppercase text-xs tracking-widest">Save Changes</button>
                 <button onClick={onCancel} className="px-8 border uppercase text-xs tracking-widest">Cancel</button>
             </div>
         </div>

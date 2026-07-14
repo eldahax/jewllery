@@ -274,8 +274,11 @@ export default function UserTable() {
 
 
                                                     <tr
+
                                                         key={user.user_id}
+
                                                         className="hover:bg-[#FCFBF9]"
+
                                                     >
 
 
@@ -344,6 +347,33 @@ function EditUserForm({ user, onCancel, onUpdate }) {
 
     });
 
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        const nameRegex = /^[A-Za-z\s'-]{2,}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!nameRegex.test(data.first_name)) {
+            newErrors.first_name = "First name must be at least 2 characters and contain only letters.";
+        }
+        if (!nameRegex.test(data.last_name)) {
+            newErrors.last_name = "Last name must be at least 2 characters and contain only letters.";
+        }
+        if (!emailRegex.test(data.email)) {
+            newErrors.email = "Please enter a valid email address.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = () => {
+        if (validate()) {
+            onUpdate(user.user_id, data);
+        }
+    };
+
 
 
     return (
@@ -351,57 +381,69 @@ function EditUserForm({ user, onCancel, onUpdate }) {
         <div className="max-w-2xl bg-white p-10 border border-[#1A080B]/10">
 
 
-            <div className="space-y-8">
+            <div className="space-y-6">
 
 
-                <input
+                <div>
+                    <input
 
-                    className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                        className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                        placeholder="First Name"
 
-                    value={data.first_name}
+                        value={data.first_name}
 
-                    onChange={(e) =>
-                        setData({
-                            ...data,
-                            first_name: e.target.value
-                        })
-                    }
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                first_name: e.target.value
+                            })
+                        }
 
-                />
-
-
-
-                <input
-
-                    className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
-
-                    value={data.last_name}
-
-                    onChange={(e) =>
-                        setData({
-                            ...data,
-                            last_name: e.target.value
-                        })
-                    }
-
-                />
+                    />
+                    {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
+                </div>
 
 
 
-                <input
+                <div>
+                    <input
 
-                    className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                        className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                        placeholder="Last Name"
 
-                    value={data.email}
+                        value={data.last_name}
 
-                    onChange={(e) =>
-                        setData({
-                            ...data,
-                            email: e.target.value
-                        })
-                    }
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                last_name: e.target.value
+                            })
+                        }
 
-                />
+                    />
+                    {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
+                </div>
+
+
+
+                <div>
+                    <input
+
+                        className="w-full border-b border-[#1A080B]/20 py-3 outline-none"
+                        placeholder="Email"
+
+                        value={data.email}
+
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                email: e.target.value
+                            })
+                        }
+
+                    />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                </div>
 
 
 
@@ -410,9 +452,7 @@ function EditUserForm({ user, onCancel, onUpdate }) {
 
                     <button
 
-                        onClick={() =>
-                            onUpdate(user.user_id, data)
-                        }
+                        onClick={handleSubmit}
 
                         className="flex-1 bg-[#1A080B] text-white py-4 uppercase text-xs tracking-widest"
 
