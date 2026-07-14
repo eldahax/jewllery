@@ -8,12 +8,12 @@ router.post("/signup", userController.signup);
 router.post("/logout", userController.logout); 
 router.post("/refresh", userController.refresh); 
 
-router.get("/me", protect, userController.getMe); 
+router.get("/me", protect,authorize("admin","costumer","employee"), userController.getMe); 
 
 
 router.get("/", protect, authorize("admin"), userController.getAllUsers);
-router.get("/:id", protect, userController.getUserById);
-router.put("/:id", protect, userController.updateUser);
-router.delete("/:id", protect, userController.deleteUser);
+router.get("/:id", protect, authorize("admin","employee","costumer"), userController.getUserById);
+router.put("/:id", protect, authorize("admin"), userController.updateUser);
+router.delete("/:id", protect, authorize("admin"), userController.deleteUser);
 
 module.exports = router;

@@ -77,45 +77,51 @@ const createUser = async (
 };
 
 const getAllUsers = async () => {
-
     const users = await User.findAll({
-        attributes: [
-            "user_id",
-            "first_name",
-            "last_name",
-            "email"
+        attributes: ["user_id", "first_name", "last_name", "email"],
+        include: [{
+            model: Role,
+            where: {
+                role_name: 'costumer' 
+            },
+            attributes: [] 
+        }]
+    });
+    return users;
+};
+const findUserByEmail = async (email) => {
+    const user = await User.findOne({
+        where: { email },
+        include: [
+            {
+                model: Role,
+                through: {
+                    attributes: []
+                },
+                attributes: ["role_id", "role_name"]
+            }
         ]
     });
 
-    return users;
-};
-
-const findUserByEmail = async (email) => {
-
-    const user = await User.findOne({
-        where: { email }
-    });
-
-
     if (!user) {
         throw new Error("this user doesnt exist");
     }
 
-
     return user;
 };
+
 
 const findUserById = async (id) => {
-
-    const user = await User.findByPk(id);
-
-
-    if (!user) {
-        throw new Error("this user doesnt exist");
-    }
-
-
-    return user;
+    return await User.findByPk(id, {
+        include: [
+            {
+                model: Role,
+                through: {
+                    attributes: []
+                }
+            }
+        ]
+    });
 };
 
 const checkEmail = async(email)=>{
