@@ -1,18 +1,20 @@
-const { Product, Category, ProductCategory, sequelize } = require("../Models/index");
-
+const { Product, Category, ProductCategory, Inventory, Discount, sequelize } = require("../Models/index");
 
 const categoryInclude = {
     model: Category,
+    as: "Categories",
     attributes: [
         "category_id",
         "category_name"
     ],
     through: {
-        model: ProductCategory,
         attributes: []
     }
 };
 
+const discountInclude = {
+    model: Discount
+};
 
 const createProduct = async (data) => {
 
@@ -54,6 +56,12 @@ const createProduct = async (data) => {
             }
         );
 
+        await Inventory.create({
+            product_id: product.product_id,
+            stock: data.stock
+        }, {
+            transaction: t
+        });
 
         return await Product.findByPk(product.product_id, {
             include: [categoryInclude],
@@ -62,25 +70,36 @@ const createProduct = async (data) => {
     });
 };
 
-
-
 const getAllProducts = async () => {
-
-    return await Product.findAll({
-        include: [categoryInclude],
-        order: [
-            ["product_id", "DESC"]
+    const products = await Product.findAll({
+        include: [
+            {
+                association: "Categories",
+                through: {
+                    attributes: []
+                }
+            },
+            {
+                model: Inventory,
+                attributes: ["stock"]
+            },
+            discountInclude
         ]
     });
-
+    return products;
 };
-
-
 
 const getById = async (id) => {
 
     const product = await Product.findByPk(id, {
-        include: [categoryInclude]
+        include: [
+            categoryInclude,
+            {
+                model: Inventory,
+                attributes: ["stock"]
+            },
+            discountInclude
+        ]
     });
 
 
@@ -167,8 +186,35 @@ const updateProduct = async (id, data) => {
 
         }
 
+        const invent = await Inventory.findOne({
+            where: {
+                product_id: id
+            },
+            transaction: t
+        });
 
+        if (data.stock !== undefined) {
 
+            if (invent) {
+
+                await invent.update({
+                    stock: data.stock
+                }, {
+                    transaction: t
+                });
+
+            } else {
+
+                await Inventory.create({
+                    product_id: id,
+                    stock: data.stock
+                }, {
+                    transaction: t
+                });
+
+            }
+
+        }
         return await Product.findByPk(id, {
             include: [categoryInclude],
             transaction: t
@@ -195,6 +241,12 @@ const deleteProduct = async (id) => {
         if (!product) {
             throw new Error("Product not found");
         }
+        await Inventory.destroy({
+            where: {
+                product_id: product.product_id
+            },
+            transaction: t
+        });
 
 
 
@@ -210,6 +262,7 @@ const deleteProduct = async (id) => {
         await product.destroy({
             transaction: t
         });
+
 
 
 

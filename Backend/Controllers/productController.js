@@ -3,11 +3,11 @@ const { Product } = require("../Models/index");
 const create = async (req, res) => {
     try {
    
-        const { supplier_id, sku, product_name, price, weight_grams, brand, metal, category_id } = req.body;
+        const { supplier_id, sku, product_name, price, weight_grams, brand, metal, category_id ,stock} = req.body;
         const image = req.file ? req.file.filename : null;
 
         const product = await productService.createProduct({
-            supplier_id, sku, product_name, price, weight_grams, image, brand, metal, category_id
+            supplier_id, sku, product_name, price, weight_grams, image, brand, metal, category_id,stock
         });
 
         res.json(product);
@@ -18,9 +18,8 @@ const create = async (req, res) => {
 };
 const getAll = async (req, res) => {
     try {
-       const products = await Product.findAll();
-  
-    res.json(products);
+        const products = await productService.getAllProducts();
+        res.json(products);
     } catch (err) {
         res.status(500).json({
             error: err.message
